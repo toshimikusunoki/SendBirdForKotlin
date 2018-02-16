@@ -31,6 +31,21 @@ class LoginActivity : AppCompatActivity() {
 
             connectToSendBird(userId, userNickname)
         })
+
+        edittext_login_user_id.setSelectAllOnFocus(true)
+        edittext_login_user_nickname.setSelectAllOnFocus(true)
+
+        // Display current SendBird and app versions in a TextView
+        val sdkVersion = String.format(resources.getString(R.string.all_app_version),
+                BaseApplication.VERSION, SendBird.getSDKVersion())
+        text_login_versions.setText(sdkVersion)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (PreferenceUtils.getConnected(this)) {
+            connectToSendBird(PreferenceUtils.getUserId(this), PreferenceUtils.getNickname(this))
+        }
     }
 
 

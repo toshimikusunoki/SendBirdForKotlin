@@ -8,8 +8,11 @@ import com.sendbird.android.SendBird
  */
 class BaseApplication : Application() {
 
-    private  val APP_ID = "2145EB0A-1DAD-4FA9-94E8-A364EDDEB6EE"
-    val VERSION = "3.0.50"
+    companion object {
+        const val VERSION = "3.0.50"
+    }
+
+    private  val APP_ID = "9DA1B1F4-0BE6-4DA8-82C5-2E81DAB56F23"
 
     override fun onCreate() {
         super.onCreate()
