@@ -42,9 +42,7 @@ class OpenChannelActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-
-        if (id == android.R.id.home) {
+        if (item.itemId == android.R.id.home) {
             onBackPressed()
             return true
         }
@@ -53,8 +51,6 @@ class OpenChannelActivity : AppCompatActivity() {
     }
 
     internal fun setActionBarTitle(title: String) {
-        if (supportActionBar != null) {
-            supportActionBar!!.title = title
-        }
+        supportActionBar?.title = title
     }
 }
