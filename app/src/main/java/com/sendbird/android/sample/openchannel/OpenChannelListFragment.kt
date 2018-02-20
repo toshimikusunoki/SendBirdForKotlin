@@ -68,15 +68,15 @@ class OpenChannelListFragment : Fragment() {
         mSwipeRefresh = rootView.findViewById(R.id.swipe_layout_open_channel_list)
 
         // Swipe down to refresh channel list.
-        mSwipeRefresh!!.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            mSwipeRefresh!!.isRefreshing = true
+        mSwipeRefresh?.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            mSwipeRefresh?.isRefreshing = true
             refresh()
         })
 
         mCreateChannelFab = rootView.findViewById<View>(R.id.fab_open_channel_list) as FloatingActionButton
-        mCreateChannelFab!!.setOnClickListener(View.OnClickListener {
-//            val intent = Intent(activity, CreateOpenChannelActivity::class.java)
-//            startActivityForResult(intent, INTENT_REQUEST_NEW_OPEN_CHANNEL)
+        mCreateChannelFab?.setOnClickListener(View.OnClickListener {
+            val intent = Intent(activity, CreateOpenChannelActivity::class.java)
+            startActivityForResult(intent, INTENT_REQUEST_NEW_OPEN_CHANNEL)
         })
 
         setUpRecyclerView()
@@ -111,12 +111,12 @@ class OpenChannelListFragment : Fragment() {
 
     internal fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(context)
-        mRecyclerView!!.layoutManager = mLayoutManager
-        mRecyclerView!!.adapter = mChannelListAdapter
-        mRecyclerView!!.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        mRecyclerView?.layoutManager = mLayoutManager
+        mRecyclerView?.adapter = mChannelListAdapter
+        mRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         // If user scrolls to bottom of the list, loads more channels.
-        mRecyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        mRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 if (mLayoutManager.findLastVisibleItemPosition() == mChannelListAdapter!!.getItemCount() - 1) {
                     loadNextChannelList()
@@ -127,7 +127,7 @@ class OpenChannelListFragment : Fragment() {
 
     // Set touch listeners to RecyclerView items
     private fun setUpChannelListAdapter() {
-        mChannelListAdapter!!.setOnItemClickListener(object : OpenChannelListAdapter.OnItemClickListener {
+        mChannelListAdapter?.setOnItemClickListener(object : OpenChannelListAdapter.OnItemClickListener {
             override fun onItemClick(channel: OpenChannel) {
                 val channelUrl = channel.url
                 // TODO:
@@ -139,7 +139,7 @@ class OpenChannelListFragment : Fragment() {
             }
         })
 
-        mChannelListAdapter!!.setOnItemLongClickListener(object : OpenChannelListAdapter.OnItemLongClickListener {
+        mChannelListAdapter?.setOnItemLongClickListener(object : OpenChannelListAdapter.OnItemLongClickListener {
             override fun onItemLongPress(channel: OpenChannel) {}
         })
     }
@@ -156,17 +156,17 @@ class OpenChannelListFragment : Fragment() {
      */
     internal fun refreshChannelList(numChannels: Int) {
         mChannelListQuery = OpenChannel.createOpenChannelListQuery()
-        mChannelListQuery!!.setLimit(numChannels)
-        mChannelListQuery!!.next(OpenChannelListQuery.OpenChannelListQueryResultHandler { list, e ->
+        mChannelListQuery?.setLimit(numChannels)
+        mChannelListQuery?.next(OpenChannelListQuery.OpenChannelListQueryResultHandler { list, e ->
             if (e != null) {
                 e.printStackTrace()
                 return@OpenChannelListQueryResultHandler
             }
 
-            mChannelListAdapter!!.setOpenChannelList(list)
+            mChannelListAdapter?.setOpenChannelList(list)
 
             if (mSwipeRefresh!!.isRefreshing) {
-                mSwipeRefresh!!.isRefreshing = false
+                mSwipeRefresh?.isRefreshing = false
             }
         })
     }
@@ -182,7 +182,7 @@ class OpenChannelListFragment : Fragment() {
             }
 
             for (channel in list) {
-                mChannelListAdapter!!.addLast(channel)
+                mChannelListAdapter?.addLast(channel)
             }
         })
     }
