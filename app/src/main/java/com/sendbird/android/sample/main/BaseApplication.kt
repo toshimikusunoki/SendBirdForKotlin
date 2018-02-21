@@ -2,6 +2,7 @@ package com.sendbird.android.sample.main
 
 import android.app.Application
 import com.sendbird.android.SendBird
+import com.sendbird.android.sample.utils.PreferenceUtils
 
 /**
  * Created by toshimikusunoki on 2018/02/16.
@@ -16,6 +17,7 @@ class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        PreferenceUtils.init(applicationContext)
         SendBird.init(APP_ID, applicationContext)
     }
 }

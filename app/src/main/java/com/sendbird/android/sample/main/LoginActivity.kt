@@ -17,8 +17,8 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        edittext_login_user_id.setText(PreferenceUtils.getUserId(this))
-        edittext_login_user_nickname.setText(PreferenceUtils.getNickname(this))
+        edittext_login_user_id.setText(PreferenceUtils.userId)
+        edittext_login_user_nickname.setText(PreferenceUtils.nickname)
 
         button_login_connect.setOnClickListener( {
             var userId = edittext_login_user_id.text.toString()
@@ -26,8 +26,8 @@ class LoginActivity : AppCompatActivity() {
             userId = userId.replace("\\s".toRegex(), "")
             val userNickname = edittext_login_user_nickname.text.toString()
 
-            PreferenceUtils.setUserId(this@LoginActivity, userId)
-            PreferenceUtils.setNickname(this@LoginActivity, userNickname)
+            PreferenceUtils.userId = userId
+            PreferenceUtils.nickname = userNickname
 
             connectToSendBird(userId, userNickname)
         })
@@ -43,8 +43,8 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (PreferenceUtils.getConnected(this)) {
-            connectToSendBird(PreferenceUtils.getUserId(this), PreferenceUtils.getNickname(this))
+        if (PreferenceUtils.connected) {
+            connectToSendBird(PreferenceUtils.userId, PreferenceUtils.nickname)
         }
     }
 
@@ -73,13 +73,13 @@ class LoginActivity : AppCompatActivity() {
                 // Show login failure snackbar
                 showSnackbar("Login to SendBird failed")
                 button_login_connect.isEnabled = true
-                PreferenceUtils.setConnected(this@LoginActivity, false)
+                PreferenceUtils.connected = false
                 return@ConnectHandler
             }
 
-            PreferenceUtils.setNickname(this@LoginActivity, user.nickname)
-            PreferenceUtils.setProfileUrl(this@LoginActivity, user.profileUrl)
-            PreferenceUtils.setConnected(this@LoginActivity, true)
+            PreferenceUtils.nickname = user.nickname
+            PreferenceUtils.profileUrl = user.profileUrl
+            PreferenceUtils.connected = true
 
             // Update the user's nickname
             updateCurrentUserInfo(userNickname)
@@ -118,7 +118,7 @@ class LoginActivity : AppCompatActivity() {
                 return@UserInfoUpdateHandler
             }
 
-            PreferenceUtils.setNickname(this@LoginActivity, userNickname)
+            PreferenceUtils.nickname = userNickname
         })
     }
 

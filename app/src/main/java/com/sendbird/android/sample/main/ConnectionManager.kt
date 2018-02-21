@@ -1,10 +1,8 @@
 package com.sendbird.android.sample.main
 
 import com.sendbird.android.SendBird
+import com.sendbird.android.sample.utils.PreferenceUtils
 
-/**
- * Created by toshimikusunoki on 2018/02/16.
- */
 object ConnectionManager {
 
     fun login(userId: String, handler: SendBird.ConnectHandler?) {
@@ -19,7 +17,7 @@ object ConnectionManager {
         }
     }
 
-    fun addConnectionManagementHandler(userId: String, handlerId: String, handler: ConnectionManagementHandler?) {
+    fun addConnectionManagementHandler(handlerId: String, handler: ConnectionManagementHandler?) {
         SendBird.addConnectionHandler(handlerId, object : SendBird.ConnectionHandler {
             override fun onReconnectStarted() {}
 
@@ -33,6 +31,7 @@ object ConnectionManager {
         if (SendBird.getConnectionState() == SendBird.ConnectionState.OPEN) {
             handler?.onConnected(false)
         } else if (SendBird.getConnectionState() == SendBird.ConnectionState.CLOSED) { // push notification or system kill
+            val userId = PreferenceUtils.userId
             SendBird.connect(userId, SendBird.ConnectHandler { user, e ->
                 if (e != null) {
                     return@ConnectHandler

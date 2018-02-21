@@ -32,17 +32,10 @@ class MainActivity : AppCompatActivity() {
      */
     private fun disconnect() {
         SendBird.unregisterPushTokenAllForCurrentUser { e ->
-            if (e != null) {
-                // Error!
-                e.printStackTrace()
-
-                // Don't return because we still need to disconnect.
-            } else {
-                //                    Toast.makeText(MainActivity.this, "All push tokens unregistered.", Toast.LENGTH_SHORT).show();
-            }
+            e?.printStackTrace()
 
             ConnectionManager.logout(SendBird.DisconnectHandler {
-                PreferenceUtils.setConnected(this@MainActivity, false)
+                PreferenceUtils.connected = false
                 val intent = Intent(applicationContext, LoginActivity::class.java)
                 startActivity(intent)
                 finish()

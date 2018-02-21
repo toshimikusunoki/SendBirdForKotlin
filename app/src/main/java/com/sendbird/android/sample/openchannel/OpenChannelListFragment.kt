@@ -16,7 +16,6 @@ import com.sendbird.android.OpenChannel
 import com.sendbird.android.OpenChannelListQuery
 import com.sendbird.android.sample.R
 import com.sendbird.android.sample.main.ConnectionManager
-import com.sendbird.android.sample.utils.PreferenceUtils
 
 /**
  * A simple [Fragment] subclass.
@@ -88,8 +87,7 @@ class OpenChannelListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val userId = PreferenceUtils.getUserId(activity!!)
-        ConnectionManager.addConnectionManagementHandler(userId, CONNECTION_HANDLER_ID, object : ConnectionManager.ConnectionManagementHandler {
+        ConnectionManager.addConnectionManagementHandler(CONNECTION_HANDLER_ID, object : ConnectionManager.ConnectionManagementHandler {
             override fun onConnected(reconnect: Boolean) {
                 refresh()
             }
