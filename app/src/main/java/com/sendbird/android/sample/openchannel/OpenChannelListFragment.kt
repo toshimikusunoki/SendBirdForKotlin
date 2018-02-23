@@ -127,13 +127,11 @@ class OpenChannelListFragment : Fragment() {
     private fun setUpChannelListAdapter() {
         mChannelListAdapter?.setOnItemClickListener(object : OpenChannelListAdapter.OnItemClickListener {
             override fun onItemClick(channel: OpenChannel) {
-                val channelUrl = channel.url
-                // TODO:
-//                val fragment = OpenChatFragment.newInstance(channelUrl)
-//                fragmentManager!!.beginTransaction()
-//                        .replace(R.id.container_open_channel, fragment)
-//                        .addToBackStack(null)
-//                        .commit()
+                val fragment = OpenChatFragment.newInstance(channel.url)
+                fragmentManager!!.beginTransaction()
+                        .replace(R.id.container_open_channel, fragment)
+                        .addToBackStack(null)
+                        .commit()
             }
         })
 
