@@ -41,6 +41,8 @@ class OpenChannelListFragment : Fragment() {
 
     companion object {
 
+        val EXTRA_OPEN_CHANNEL_URL = "OPEN_CHANNEL_URL"
+
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
