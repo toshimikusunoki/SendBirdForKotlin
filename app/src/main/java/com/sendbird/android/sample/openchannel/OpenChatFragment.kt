@@ -20,7 +20,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
 import com.sendbird.android.*
 import com.sendbird.android.sample.R
 import com.sendbird.android.sample.main.ConnectionManager
@@ -40,8 +43,6 @@ class OpenChatFragment : Fragment() {
     private var mMessageEditText: EditText? = null
     private var mMessageSendButton: Button? = null
     private var mUploadFileButton: ImageButton? = null
-    private var mCurrentEventLayout: View? = null
-    private var mCurrentEventText: TextView? = null
 
     private var mChannel: OpenChannel? = null
     private var mChannelUrl: String? = null
@@ -65,9 +66,6 @@ class OpenChatFragment : Fragment() {
         mRootLayout = rootView.findViewById(R.id.layout_open_chat_root)
 
         mRecyclerView = rootView.findViewById<View>(R.id.recycler_open_channel_chat) as RecyclerView
-
-        mCurrentEventLayout = rootView.findViewById(R.id.layout_open_chat_current_event)
-        mCurrentEventText = rootView.findViewById<View>(R.id.text_open_chat_current_event) as TextView
 
         setUpChatAdapter()
         setUpRecyclerView()
