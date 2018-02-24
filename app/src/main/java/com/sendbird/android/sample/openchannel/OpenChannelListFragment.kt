@@ -3,7 +3,6 @@ package com.sendbird.android.sample.openchannel
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -16,6 +15,7 @@ import com.sendbird.android.OpenChannel
 import com.sendbird.android.OpenChannelListQuery
 import com.sendbird.android.sample.R
 import com.sendbird.android.sample.main.ConnectionManager
+import kotlinx.android.synthetic.main.fragment_open_channel_list.*
 
 /**
  * A simple [Fragment] subclass.
@@ -28,11 +28,8 @@ import com.sendbird.android.sample.main.ConnectionManager
 class OpenChannelListFragment : Fragment() {
 
 
-    private var mRecyclerView: RecyclerView? = null
     private var mChannelListQuery: OpenChannelListQuery? = null
     private var mChannelListAdapter: OpenChannelListAdapter? = null
-    private var mSwipeRefresh: SwipeRefreshLayout? = null
-    private var mCreateChannelFab: FloatingActionButton? = null
 
     private val INTENT_REQUEST_NEW_OPEN_CHANNEL = 402
 
@@ -56,34 +53,29 @@ class OpenChannelListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_open_channel_list, container, false)
+        return inflater.inflate(R.layout.fragment_open_channel_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         retainInstance = true
         setHasOptionsMenu(true)
-
         (activity as OpenChannelActivity).setActionBarTitle(resources.getString(R.string.all_open_channels))
 
-        mRecyclerView = rootView.findViewById<View>(R.id.recycler_open_channel_list) as RecyclerView
         mChannelListAdapter = OpenChannelListAdapter(context!!)
 
-        // Set color?
-        mSwipeRefresh = rootView.findViewById(R.id.swipe_layout_open_channel_list)
-
         // Swipe down to refresh channel list.
-        mSwipeRefresh?.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            mSwipeRefresh?.isRefreshing = true
+        swipe_layout_open_channel_list.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            swipe_layout_open_channel_list.isRefreshing = true
             refresh()
         })
 
-        mCreateChannelFab = rootView.findViewById<View>(R.id.fab_open_channel_list) as FloatingActionButton
-        mCreateChannelFab?.setOnClickListener(View.OnClickListener {
+        fab_open_channel_list.setOnClickListener(View.OnClickListener {
             val intent = Intent(activity, CreateOpenChannelActivity::class.java)
             startActivityForResult(intent, INTENT_REQUEST_NEW_OPEN_CHANNEL)
         })
 
         setUpRecyclerView()
         setUpChannelListAdapter()
-        // Inflate the layout for this fragment
-        return rootView
     }
 
     override fun onResume() {
@@ -111,12 +103,12 @@ class OpenChannelListFragment : Fragment() {
 
     internal fun setUpRecyclerView() {
         val mLayoutManager = LinearLayoutManager(context)
-        mRecyclerView?.layoutManager = mLayoutManager
-        mRecyclerView?.adapter = mChannelListAdapter
-        mRecyclerView?.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        recycler_open_channel_list.layoutManager = mLayoutManager
+        recycler_open_channel_list.adapter = mChannelListAdapter
+        recycler_open_channel_list.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
 
         // If user scrolls to bottom of the list, loads more channels.
-        mRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recycler_open_channel_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 if (mLayoutManager.findLastVisibleItemPosition() == mChannelListAdapter!!.getItemCount() - 1) {
                     loadNextChannelList()
@@ -163,8 +155,8 @@ class OpenChannelListFragment : Fragment() {
 
             mChannelListAdapter?.setOpenChannelList(list)
 
-            if (mSwipeRefresh!!.isRefreshing) {
-                mSwipeRefresh?.isRefreshing = false
+            if (swipe_layout_open_channel_list.isRefreshing) {
+                swipe_layout_open_channel_list.isRefreshing = false
             }
         })
     }
