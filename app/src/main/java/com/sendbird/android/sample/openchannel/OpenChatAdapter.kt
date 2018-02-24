@@ -13,6 +13,7 @@ import com.sendbird.android.sample.R
 import com.sendbird.android.sample.utils.DateUtils
 import com.sendbird.android.sample.utils.FileUtils
 import com.sendbird.android.sample.utils.ImageUtils
+import kotlinx.android.synthetic.main.list_item_open_chat_file.view.*
 import java.util.*
 
 /**
@@ -161,7 +162,6 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
     }
 
     private inner class UserMessageHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var nicknameText: TextView
         internal var messageText: TextView
         internal var editedText: TextView
         internal var timeText: TextView
@@ -169,8 +169,6 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
         internal var profileImage: ImageView
 
         init {
-
-            nicknameText = itemView.findViewById(R.id.text_open_chat_nickname) as TextView
             messageText = itemView.findViewById(R.id.text_open_chat_message) as TextView
             editedText = itemView.findViewById(R.id.text_open_chat_edited) as TextView
             timeText = itemView.findViewById(R.id.text_open_chat_time) as TextView
@@ -187,9 +185,9 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
 
             // If current user sent the message, display name in different color
             if (sender.userId == SendBird.getCurrentUser().userId) {
-                nicknameText.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameMe))
+                itemView.text_open_chat_nickname.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameMe))
             } else {
-                nicknameText.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameOther))
+                itemView.text_open_chat_nickname.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameOther))
             }
 
             // Show the date if the message was sent on a different date than the previous one.
@@ -200,7 +198,7 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
                 dateText.visibility = View.GONE
             }
 
-            nicknameText.text = message.sender.nickname
+            itemView.text_open_chat_nickname.text = message.sender.nickname
             messageText.text = message.message
             timeText.setText(DateUtils.formatTime(message.createdAt))
 
@@ -252,24 +250,6 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
     }
 
     private inner class FileMessageHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal var nicknameText: TextView
-        internal var timeText: TextView
-        internal var fileNameText: TextView
-        internal var fileSizeText: TextView
-        internal var dateText: TextView
-        internal var profileImage: ImageView
-        internal var fileThumbnail: ImageView
-
-        init {
-
-            nicknameText = itemView.findViewById(R.id.text_open_chat_nickname) as TextView
-            timeText = itemView.findViewById(R.id.text_open_chat_time) as TextView
-            profileImage = itemView.findViewById(R.id.image_open_chat_profile) as ImageView
-            fileNameText = itemView.findViewById(R.id.text_open_chat_file_name) as TextView
-            fileSizeText = itemView.findViewById(R.id.text_open_chat_file_size) as TextView
-            fileThumbnail = itemView.findViewById(R.id.image_open_chat_file_thumbnail) as ImageView
-            dateText = itemView.findViewById(R.id.text_open_chat_date) as TextView
-        }
 
         // Binds message details to ViewHolder item
         internal fun bind(context: Context, message: FileMessage, isNewDay: Boolean,
@@ -279,25 +259,25 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
 
             // If current user sent the message, display name in different color
             if (sender.userId == SendBird.getCurrentUser().userId) {
-                nicknameText.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameMe))
+                itemView.text_open_chat_nickname.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameMe))
             } else {
-                nicknameText.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameOther))
+                itemView.text_open_chat_nickname.setTextColor(ContextCompat.getColor(context, R.color.openChatNicknameOther))
             }
 
             // Show the date if the message was sent on a different date than the previous one.
             if (isNewDay) {
-                dateText.visibility = View.VISIBLE
-                dateText.setText(DateUtils.formatDate(message.createdAt))
+                itemView.text_open_chat_date.visibility = View.VISIBLE
+                itemView.text_open_chat_date.setText(DateUtils.formatDate(message.createdAt))
             } else {
-                dateText.visibility = View.GONE
+                itemView.text_open_chat_date.visibility = View.GONE
             }
 
             // Get profile image and display it
-            ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, profileImage)
+            ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, itemView.image_open_chat_profile)
 
-            fileNameText.text = message.name
-            fileSizeText.setText(FileUtils.toReadableFileSize(message.size))
-            nicknameText.text = message.sender.nickname
+            itemView.text_open_chat_file_name.text = message.name
+            itemView.text_open_chat_file_size.setText(FileUtils.toReadableFileSize(message.size))
+            itemView.text_open_chat_nickname.text = message.sender.nickname
 
             // If image, display thumbnail
             if (message.type.toLowerCase().startsWith("image")) {
@@ -307,15 +287,15 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
                 // If thumbnails exist, get smallest (first) thumbnail and display it in the message
                 if (thumbnails.size > 0) {
                     if (message.type.toLowerCase().contains("gif")) {
-                        ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnail, thumbnails[0].url, fileThumbnail.drawable)
+                        ImageUtils.displayGifImageFromUrl(context, message.url, itemView.image_open_chat_file_thumbnail, thumbnails[0].url, itemView.image_open_chat_file_thumbnail.drawable)
                     } else {
-                        ImageUtils.displayImageFromUrl(context, thumbnails[0].url, fileThumbnail, fileThumbnail.drawable)
+                        ImageUtils.displayImageFromUrl(context, thumbnails[0].url, itemView.image_open_chat_file_thumbnail, itemView.image_open_chat_file_thumbnail.drawable)
                     }
                 } else {
                     if (message.type.toLowerCase().contains("gif")) {
-                        ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnail, null as String?, fileThumbnail.drawable)
+                        ImageUtils.displayGifImageFromUrl(context, message.url, itemView.image_open_chat_file_thumbnail, null as String?, itemView.image_open_chat_file_thumbnail.drawable)
                     } else {
-                        ImageUtils.displayImageFromUrl(context, message.url, fileThumbnail, fileThumbnail.drawable)
+                        ImageUtils.displayImageFromUrl(context, message.url, itemView.image_open_chat_file_thumbnail, itemView.image_open_chat_file_thumbnail.drawable)
                     }
                 }
 
@@ -326,13 +306,13 @@ internal class OpenChatAdapter(private val mContext: Context) : RecyclerView.Ada
                 // If thumbnails exist, get smallest (first) thumbnail and display it in the message
                 if (thumbnails.size > 0) {
                     ImageUtils.displayImageFromUrlWithPlaceHolder(
-                            context, thumbnails[0].url, fileThumbnail, R.drawable.ic_file_message)
+                            context, thumbnails[0].url, itemView.image_open_chat_file_thumbnail, R.drawable.ic_file_message)
                 } else {
-                    fileThumbnail.setImageDrawable(context.resources.getDrawable(R.drawable.ic_play))
+                    itemView.image_open_chat_file_thumbnail.setImageDrawable(context.resources.getDrawable(R.drawable.ic_play))
                 }
 
             } else {
-                fileThumbnail.setImageDrawable(context.resources.getDrawable(R.drawable.ic_file_message))
+                itemView.image_open_chat_file_thumbnail.setImageDrawable(context.resources.getDrawable(R.drawable.ic_file_message))
             }
 
             if (clickListener != null) {
