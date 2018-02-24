@@ -20,14 +20,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
 import android.widget.Toast
 import com.sendbird.android.*
 import com.sendbird.android.sample.R
 import com.sendbird.android.sample.main.ConnectionManager
 import com.sendbird.android.sample.utils.FileUtils
+import kotlinx.android.synthetic.main.fragment_open_chat.*
 import java.io.File
 import java.util.*
 
@@ -36,13 +34,8 @@ class OpenChatFragment : Fragment() {
 
     private var mIMM: InputMethodManager? = null
 
-    private var mRecyclerView: RecyclerView? = null
     private var mChatAdapter: OpenChatAdapter? = null
     private var mLayoutManager: LinearLayoutManager? = null
-    private var mRootLayout: View? = null
-    private var mMessageEditText: EditText? = null
-    private var mMessageSendButton: Button? = null
-    private var mUploadFileButton: ImageButton? = null
 
     private var mChannel: OpenChannel? = null
     private var mChannelUrl: String? = null
@@ -57,63 +50,49 @@ class OpenChatFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_open_chat, container, false)
+        return inflater.inflate(R.layout.fragment_open_chat, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         retainInstance = true
-
         setHasOptionsMenu(true)
-
-        mRootLayout = rootView.findViewById(R.id.layout_open_chat_root)
-
-        mRecyclerView = rootView.findViewById<View>(R.id.recycler_open_channel_chat) as RecyclerView
 
         setUpChatAdapter()
         setUpRecyclerView()
 
-        // Set up chat box
-        mMessageSendButton = rootView.findViewById<View>(R.id.button_open_channel_chat_send) as Button
-        mMessageEditText = rootView.findViewById<View>(R.id.edittext_chat_message) as EditText
-
-        mMessageEditText!!.addTextChangedListener(object : TextWatcher {
+        edittext_chat_message.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
-                if (s.length > 0) {
-                    mMessageSendButton!!.isEnabled = true
-                } else {
-                    mMessageSendButton!!.isEnabled = false
-                }
+                button_open_channel_chat_send.isEnabled = if (s.length > 0) true else false
             }
         })
 
-        mMessageSendButton!!.isEnabled = false
-        mMessageSendButton!!.setOnClickListener {
+        button_open_channel_chat_send.isEnabled = false
+        button_open_channel_chat_send.setOnClickListener {
             if (mCurrentState == STATE_EDIT) {
-                val userInput = mMessageEditText!!.text.toString()
+                val userInput = edittext_chat_message.text.toString()
                 if (userInput.length > 0) {
                     if (mEditingMessage != null) {
-                        editMessage(mEditingMessage, mMessageEditText!!.text.toString())
+                        editMessage(mEditingMessage, edittext_chat_message.text.toString())
                     }
                 }
                 setState(STATE_NORMAL, null, -1)
             } else {
-                val userInput = mMessageEditText!!.text.toString()
+                val userInput = edittext_chat_message.text.toString()
                 if (userInput.length > 0) {
                     sendUserMessage(userInput)
-                    mMessageEditText!!.setText("")
+                    edittext_chat_message.setText("")
                 }
             }
         }
 
-        mUploadFileButton = rootView.findViewById<View>(R.id.button_open_channel_chat_upload) as ImageButton
-        mUploadFileButton!!.setOnClickListener { requestImage() }
-
+        button_open_channel_chat_upload.setOnClickListener { requestImage() }
         // Gets channel from URL user requested
         mChannelUrl = arguments!!.getString(OpenChannelListFragment.EXTRA_OPEN_CHANNEL_URL)
-
-        return rootView
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -123,12 +102,12 @@ class OpenChatFragment : Fragment() {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                     // Permission granted.
-                    Snackbar.make(mRootLayout!!, "Storage permissions granted. You can now upload or download files.",
+                    Snackbar.make(layout_open_chat_root, "Storage permissions granted. You can now upload or download files.",
                             Snackbar.LENGTH_LONG)
                             .show()
                 } else {
                     // Permission denied.
-                    Snackbar.make(mRootLayout!!, "Permissions denied.",
+                    Snackbar.make(layout_open_chat_root, "Permissions denied.",
                             Snackbar.LENGTH_SHORT)
                             .show()
                 }
@@ -268,31 +247,31 @@ class OpenChatFragment : Fragment() {
                 mCurrentState = STATE_NORMAL
                 mEditingMessage = null
 
-                mUploadFileButton!!.visibility = View.VISIBLE
-                mMessageSendButton!!.text = "SEND"
-                mMessageEditText!!.setText("")
+                button_open_channel_chat_upload.visibility = View.VISIBLE
+                button_open_channel_chat_send.text = "SEND"
+                edittext_chat_message.setText("")
             }
 
             STATE_EDIT -> {
                 mCurrentState = STATE_EDIT
                 mEditingMessage = editingMessage
 
-                mUploadFileButton!!.visibility = View.GONE
-                mMessageSendButton!!.text = "SAVE"
+                button_open_channel_chat_upload.visibility = View.GONE
+                button_open_channel_chat_send.text = "SAVE"
                 var messageString: String? = (editingMessage as UserMessage).message
                 if (messageString == null) {
                     messageString = ""
                 }
-                mMessageEditText!!.setText(messageString)
+                edittext_chat_message.setText(messageString)
                 if (messageString.length > 0) {
-                    mMessageEditText!!.setSelection(0, messageString.length)
+                    edittext_chat_message.setSelection(0, messageString.length)
                 }
 
-                mMessageEditText!!.requestFocus()
-                mMessageEditText!!.postDelayed({
-                    mIMM!!.showSoftInput(mMessageEditText, 0)
+                edittext_chat_message.requestFocus()
+                edittext_chat_message.postDelayed({
+                    mIMM!!.showSoftInput(edittext_chat_message, 0)
 
-                    mRecyclerView!!.postDelayed({ mRecyclerView!!.scrollToPosition(position) }, 500)
+                    recycler_open_channel_chat.postDelayed({ recycler_open_channel_chat.scrollToPosition(position) }, 500)
                 }, 100)
             }
         }
@@ -307,7 +286,7 @@ class OpenChatFragment : Fragment() {
                     return true
                 }
 
-                mIMM!!.hideSoftInputFromWindow(mMessageEditText!!.windowToken, 0)
+                mIMM!!.hideSoftInputFromWindow(edittext_chat_message.windowToken, 0)
                 return false
             }
         })
@@ -316,11 +295,11 @@ class OpenChatFragment : Fragment() {
     private fun setUpRecyclerView() {
         mLayoutManager = LinearLayoutManager(activity)
         mLayoutManager!!.reverseLayout = true
-        mRecyclerView!!.layoutManager = mLayoutManager
-        mRecyclerView!!.adapter = mChatAdapter
+        recycler_open_channel_chat.layoutManager = mLayoutManager
+        recycler_open_channel_chat.adapter = mChatAdapter
 
         // Load more messages when user reaches the top of the current message list.
-        mRecyclerView!!.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recycler_open_channel_chat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
 
                 if (mLayoutManager!!.findLastVisibleItemPosition() == mChatAdapter!!.itemCount - 1) {
@@ -409,7 +388,7 @@ class OpenChatFragment : Fragment() {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // For example if the user has previously denied the permission.
-            Snackbar.make(mRootLayout!!, "Storage access permissions are required to upload/download files.",
+            Snackbar.make(layout_open_chat_root, "Storage access permissions are required to upload/download files.",
                     Snackbar.LENGTH_LONG)
                     .setAction("Okay") {
                         requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
