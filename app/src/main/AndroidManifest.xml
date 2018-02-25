@@ -30,11 +30,14 @@
             android:label="@string/select_channel_type" />
         <activity
             android:name=".openchannel.OpenChannelActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".openchannel.CreateOpenChannelActivity"
             android:label="@string/create_open_channel"
             android:windowSoftInputMode="stateVisible" />
+        <activity
+            android:name=".openchannel.ParticipantListActivity"
+            android:label="@string/participant_list"></activity>
     </application>
 
 </manifest>

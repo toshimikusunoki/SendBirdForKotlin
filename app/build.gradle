@@ -6,9 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.sendbird.android.sample"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -38,7 +39,7 @@ dependencies {
     })
 
     // SendBird
-    compile 'com.sendbird.sdk:sendbird-android-sdk:3.0.50'
+    compile 'com.sendbird.sdk:sendbird-android-sdk:3.0.51'
 
     // Android support libraries
     compile 'com.android.support:appcompat-v7:27.0.1'

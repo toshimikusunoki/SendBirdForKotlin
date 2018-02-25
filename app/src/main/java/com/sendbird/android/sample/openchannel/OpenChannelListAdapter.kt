@@ -6,10 +6,9 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import com.sendbird.android.OpenChannel
 import com.sendbird.android.sample.R
+import kotlinx.android.synthetic.main.list_item_open_channel.view.*
 import java.util.*
 
 /**
@@ -72,24 +71,14 @@ internal class OpenChannelListAdapter(private val mContext: Context) : RecyclerV
         // A list of colors for decorating each list item.
         private val colorList = arrayOf("#ff2de3e1", "#ff35a3fb", "#ff805aff", "#ffcf47fb", "#ffe248c3")
 
-        internal var nameText: TextView
-        internal var participantCountText: TextView
-        internal var coloredDecorator: ImageView
-
-        init {
-            nameText = itemView.findViewById<View>(R.id.text_open_channel_list_name) as TextView
-            participantCountText = itemView.findViewById<View>(R.id.text_open_channel_list_participant_count) as TextView
-            coloredDecorator = itemView.findViewById<View>(R.id.image_open_channel_list_decorator) as ImageView
-        }
-
         internal fun bind(context: Context, channel: OpenChannel, position: Int, clickListener: OnItemClickListener?, longClickListener: OnItemLongClickListener?) {
-            nameText.text = channel.name
+            itemView.text_open_channel_list_name.text = channel.name
 
             val participantCount = String.format(context.resources
                     .getString(R.string.open_channel_list_participant_count), channel.participantCount)
-            participantCountText.text = participantCount
+            itemView.text_open_channel_list_participant_count.text = participantCount
 
-            coloredDecorator.setBackgroundColor(Color.parseColor(colorList[position % colorList.size]))
+            itemView.image_open_channel_list_decorator.setBackgroundColor(Color.parseColor(colorList[position % colorList.size]))
 
             // Set an OnClickListener to this item.
             if (clickListener != null) {
