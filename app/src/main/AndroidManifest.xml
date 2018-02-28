@@ -43,7 +43,10 @@
             android:label="@string/member_info" />
         <activity
             android:name=".groupchannel.MemberListActivity"
-            android:label="@string/member_list"></activity>
+            android:label="@string/member_list" />
+        <activity
+            android:name=".groupchannel.GroupChannelActivity"
+            android:windowSoftInputMode="stateHidden"></activity>
     </application>
 
 </manifest>

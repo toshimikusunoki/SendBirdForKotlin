@@ -84,20 +84,15 @@ class GroupChatFragment : Fragment() {
         private val ARG_PARAM2 = "param2"
 
         /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GroupChatFragment.
+         * To create an instance of this fragment, a Channel URL should be required.
          */
-        // TODO: Rename and change types and number of parameters
-        fun newInstance(param1: String, param2: String): GroupChatFragment {
+        fun newInstance(channelUrl: String): GroupChatFragment {
             val fragment = GroupChatFragment()
+
             val args = Bundle()
-            args.putString(ARG_PARAM1, param1)
-            args.putString(ARG_PARAM2, param2)
+            args.putString(GroupChannelListFragment.EXTRA_GROUP_CHANNEL_URL, channelUrl)
             fragment.arguments = args
+
             return fragment
         }
     }
