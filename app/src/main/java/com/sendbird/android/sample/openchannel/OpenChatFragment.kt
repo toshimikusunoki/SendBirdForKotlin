@@ -196,14 +196,13 @@ class OpenChatFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         val id = item!!.itemId
 
-        //TODO:
-//        if (id == R.id.action_open_chat_view_participants) {
-//            val intent = Intent(activity, ParticipantListActivity::class.java)
-//            intent.putExtra(EXTRA_CHANNEL_URL, mChannel!!.url)
-//            startActivity(intent)
-//
-//            return true
-//        }
+        if (id == R.id.action_open_chat_view_participants) {
+            val intent = Intent(activity, ParticipantListActivity::class.java)
+            intent.putExtra(EXTRA_CHANNEL_URL, mChannel!!.url)
+            startActivity(intent)
+
+            return true
+        }
 
         return super.onOptionsItemSelected(item)
     }

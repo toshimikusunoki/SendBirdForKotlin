@@ -37,7 +37,13 @@
             android:windowSoftInputMode="stateVisible" />
         <activity
             android:name=".openchannel.ParticipantListActivity"
-            android:label="@string/participant_list"></activity>
+            android:label="@string/participant_list" />
+        <activity
+            android:name=".groupchannel.MemberInfoActivity"
+            android:label="@string/member_info" />
+        <activity
+            android:name=".groupchannel.MemberListActivity"
+            android:label="@string/member_list"></activity>
     </application>
 
 </manifest>
