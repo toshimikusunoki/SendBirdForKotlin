@@ -46,7 +46,11 @@
             android:label="@string/member_list" />
         <activity
             android:name=".groupchannel.GroupChannelActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".utils.PhotoViewerActivity" />
+        <activity
+            android:name=".utils.MediaPlayerActivity"
+            android:configChanges="orientation|screenSize"></activity>
     </application>
 
 </manifest>
