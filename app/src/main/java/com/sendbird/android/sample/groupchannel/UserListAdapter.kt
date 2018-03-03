@@ -1,6 +1,7 @@
 package com.sendbird.android.sample.groupchannel
 
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -61,14 +62,13 @@ class UserListAdapter(private val mContext: Context, private val mChannelUrl: St
                     view.relative_layout_blocked_by_me.visibility = View.VISIBLE
 
                     holder.view.setOnClickListener {
-                        // TODO:
-//                        val intent = Intent(context, MemberInfoActivity::class.java)
-//                        intent.putExtra(MemberListActivity.EXTRA_CHANNEL_URL, mChannelUrl)
-//                        intent.putExtra(MemberListActivity.EXTRA_USER_ID, user.userId)
-//                        intent.putExtra(MemberListActivity.EXTRA_USER_PROFILE_URL, user.profileUrl)
-//                        intent.putExtra(MemberListActivity.EXTRA_USER_NICKNAME, user.nickname)
-//                        intent.putExtra(MemberListActivity.EXTRA_USER_BLOCKED_BY_ME, (user as Member).isBlockedByMe)
-//                        context.startActivity(intent)
+                        val intent = Intent(context, MemberInfoActivity::class.java)
+                        intent.putExtra(MemberListActivity.EXTRA_CHANNEL_URL, mChannelUrl)
+                        intent.putExtra(MemberListActivity.EXTRA_USER_ID, user.userId)
+                        intent.putExtra(MemberListActivity.EXTRA_USER_PROFILE_URL, user.profileUrl)
+                        intent.putExtra(MemberListActivity.EXTRA_USER_NICKNAME, user.nickname)
+                        intent.putExtra(MemberListActivity.EXTRA_USER_BLOCKED_BY_ME, (user as Member).isBlockedByMe)
+                        context.startActivity(intent)
                     }
                 }
 
