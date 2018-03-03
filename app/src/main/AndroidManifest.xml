@@ -56,7 +56,10 @@
             android:label="@string/create_group_channel" />
         <activity
             android:name=".groupchannel.BlockedMembersListActivity"
-            android:label="@string/blocked_members_list"></activity>
+            android:label="@string/blocked_members_list" />
+        <activity
+            android:name=".groupchannel.InviteMemberActivity"
+            android:label="@string/invite_member" />
     </application>
 
 </manifest>
