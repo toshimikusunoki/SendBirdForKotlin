@@ -25,6 +25,8 @@ import com.sendbird.android.*
 import com.sendbird.android.sample.R
 import com.sendbird.android.sample.main.ConnectionManager
 import com.sendbird.android.sample.utils.FileUtils
+import com.sendbird.android.sample.utils.MediaPlayerActivity
+import com.sendbird.android.sample.utils.PhotoViewerActivity
 import kotlinx.android.synthetic.main.fragment_open_chat.*
 import java.io.File
 import java.util.*
@@ -310,20 +312,19 @@ class OpenChatFragment : Fragment() {
     }
 
     private fun onFileMessageClicked(message: FileMessage) {
-        // TODO:
-//        val type = message.type.toLowerCase()
-//        if (type.startsWith("image")) {
-//            val i = Intent(activity, PhotoViewerActivity::class.java)
-//            i.putExtra("url", message.url)
-//            i.putExtra("type", message.type)
-//            startActivity(i)
-//        } else if (type.startsWith("video")) {
-//            val intent = Intent(activity, MediaPlayerActivity::class.java)
-//            intent.putExtra("url", message.url)
-//            startActivity(intent)
-//        } else {
-//            showDownloadConfirmDialog(message)
-//        }
+        val type = message.type.toLowerCase()
+        if (type.startsWith("image")) {
+            val i = Intent(activity, PhotoViewerActivity::class.java)
+            i.putExtra("url", message.url)
+            i.putExtra("type", message.type)
+            startActivity(i)
+        } else if (type.startsWith("video")) {
+            val intent = Intent(activity, MediaPlayerActivity::class.java)
+            intent.putExtra("url", message.url)
+            startActivity(intent)
+        } else {
+            showDownloadConfirmDialog(message)
+        }
     }
 
     private fun showDownloadConfirmDialog(message: FileMessage) {
