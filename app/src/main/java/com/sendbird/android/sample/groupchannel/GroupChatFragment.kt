@@ -264,10 +264,9 @@ class GroupChatFragment : Fragment() {
         val id = item!!.itemId
 
         if (id == R.id.action_group_channel_invite) {
-            // TODO:
-//            val intent = Intent(activity, InviteMemberActivity::class.java)
-//            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl)
-//            startActivity(intent)
+            val intent = Intent(activity, InviteMemberActivity::class.java)
+            intent.putExtra(EXTRA_CHANNEL_URL, mChannelUrl)
+            startActivity(intent)
             return true
         } else if (id == R.id.action_group_channel_view_members) {
             val intent = Intent(activity, MemberListActivity::class.java)
