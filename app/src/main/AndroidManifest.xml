@@ -50,7 +50,13 @@
         <activity android:name=".utils.PhotoViewerActivity" />
         <activity
             android:name=".utils.MediaPlayerActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".groupchannel.CreateGroupChannelActivity"
+            android:label="@string/create_group_channel" />
+        <activity
+            android:name=".groupchannel.BlockedMembersListActivity"
+            android:label="@string/blocked_members_list"></activity>
     </application>
 
 </manifest>

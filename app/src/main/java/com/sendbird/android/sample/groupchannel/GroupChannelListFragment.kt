@@ -35,9 +35,8 @@ class GroupChannelListFragment : Fragment() {
         (activity as GroupChannelActivity).setActionBarTitle(resources.getString(R.string.all_group_channels))
 
         fab_group_channel_list.setOnClickListener {
-            // TODO:
-//            val intent = Intent(context, CreateGroupChannelActivity::class.java)
-//            startActivityForResult(intent, INTENT_REQUEST_NEW_GROUP_CHANNEL)
+            val intent = Intent(context, CreateGroupChannelActivity::class.java)
+            startActivityForResult(intent, INTENT_REQUEST_NEW_GROUP_CHANNEL)
         }
 
         swipe_layout_group_channel_list.setOnRefreshListener {
@@ -92,9 +91,7 @@ class GroupChannelListFragment : Fragment() {
             if (resultCode == RESULT_OK) {
                 // Channel successfully created
                 // Enter the newly created channel.
-                // TODO: CreateGroupChannelActivity
-                // val newChannelUrl = data!!.getStringExtra(CreateGroupChannelActivity.EXTRA_NEW_CHANNEL_URL)
-                val newChannelUrl = "hoge"
+                val newChannelUrl = data!!.getStringExtra(CreateGroupChannelActivity.EXTRA_NEW_CHANNEL_URL)
                 if (newChannelUrl != null) {
                     enterGroupChannel(newChannelUrl)
                 }
