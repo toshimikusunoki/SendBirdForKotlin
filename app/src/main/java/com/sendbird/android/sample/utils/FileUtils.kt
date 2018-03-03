@@ -12,10 +12,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 import java.text.DecimalFormat
 import java.util.*
 
@@ -210,5 +207,19 @@ object FileUtils {
         if (!tempFile.renameTo(file)) {
             throw IOException("Error to rename file to " + file.absolutePath)
         }
+    }
+
+    @Throws(IOException::class)
+    fun loadFromFile(file: File): String {
+        val stream = FileInputStream(file)
+        val reader = BufferedReader(InputStreamReader(stream))
+        val builder = StringBuilder()
+        val buffer = CharArray(8192)
+        var read: Int
+//        while ((read = reader.read(buffer, 0, buffer.size)) > 0) {
+//            builder.append(buffer, 0, read)
+//        }
+        reader.forEachLine { builder.append(it) }
+        return builder.toString()
     }
 }// Prevent instantiation

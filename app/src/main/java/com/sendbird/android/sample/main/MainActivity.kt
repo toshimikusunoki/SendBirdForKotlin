@@ -3,8 +3,11 @@ package com.sendbird.android.sample.main
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.sendbird.android.SendBird
 import com.sendbird.android.sample.R
+import com.sendbird.android.sample.groupchannel.GroupChannelActivity
 import com.sendbird.android.sample.openchannel.OpenChannelActivity
 import com.sendbird.android.sample.utils.PreferenceUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -15,6 +18,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar_main)
+
+        linear_layout_group_channels.setOnClickListener {
+            val intent = Intent(this@MainActivity, GroupChannelActivity::class.java)
+            startActivity(intent)
+        }
 
         linear_layout_open_channels.setOnClickListener( {
             val intent = Intent(this@MainActivity, OpenChannelActivity::class.java)
@@ -41,5 +49,22 @@ class MainActivity : AppCompatActivity() {
                 finish()
             })
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_main -> {
+                // TODO:
+//                val intent = Intent(this@MainActivity, SettingsActivity::class.java)
+//                startActivity(intent)
+                return true
+            }
+        }
+        return false
     }
 }
