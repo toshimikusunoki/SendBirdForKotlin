@@ -340,7 +340,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
             if (msg is FileMessage) {
                 if (message.requestId == msg.requestId) {
                     val circleProgressBar = mFileMessageMap[message]
-                    circleProgressBar!!.progress = percent
+                    circleProgressBar!!.setProgress(percent)
                     break
                 }
             }
@@ -637,7 +637,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                     urlPreviewSiteNameText.text = "@" + previewInfo.siteName
                     urlPreviewTitleText.text = previewInfo.title
                     urlPreviewDescriptionText.text = previewInfo.description
-                    ImageUtils.displayImageFromUrl(context!!, previewInfo.imageUrl, urlPreviewMainImageView, null!!)
+                    ImageUtils.displayImageFromUrl(context, previewInfo.imageUrl, urlPreviewMainImageView, null)
                 } catch (e: JSONException) {
                     urlPreviewContainer.visibility = View.GONE
                     e.printStackTrace()
@@ -719,7 +719,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                 nicknameText.visibility = View.GONE
             } else {
                 profileImage.visibility = View.VISIBLE
-                ImageUtils.displayRoundImageFromUrl(context!!, message.sender.profileUrl, profileImage)
+                ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, profileImage)
 
                 nicknameText.visibility = View.VISIBLE
                 nicknameText.text = message.sender.nickname
@@ -742,7 +742,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                     urlPreviewSiteNameText.text = "@" + previewInfo.siteName
                     urlPreviewTitleText.text = previewInfo.title
                     urlPreviewDescriptionText.text = previewInfo.description
-                    ImageUtils.displayImageFromUrl(context!!, previewInfo.imageUrl, urlPreviewMainImageView, null!!)
+                    ImageUtils.displayImageFromUrl(context, previewInfo.imageUrl, urlPreviewMainImageView, null)
                 } catch (e: JSONException) {
                     urlPreviewContainer.visibility = View.GONE
                     e.printStackTrace()
@@ -875,7 +875,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                 nicknameText.visibility = View.GONE
             } else {
                 profileImage.visibility = View.VISIBLE
-                ImageUtils.displayRoundImageFromUrl(context!!, message.sender.profileUrl, profileImage)
+                ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, profileImage)
 
                 nicknameText.visibility = View.VISIBLE
                 nicknameText.text = message.sender.nickname
@@ -947,7 +947,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
             }
 
             if (isTempMessage && tempFileMessageUri != null) {
-                ImageUtils.displayImageFromUrl(context!!, tempFileMessageUri.toString(), fileThumbnailImage, null!!)
+                ImageUtils.displayImageFromUrl(context, tempFileMessageUri.toString(), fileThumbnailImage, null)
             } else {
                 // Get thumbnails from FileMessage
                 val thumbnails = message.thumbnails as ArrayList<FileMessage.Thumbnail>
@@ -955,15 +955,15 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                 // If thumbnails exist, get smallest (first) thumbnail and display it in the message
                 if (thumbnails.size > 0) {
                     if (message.type.toLowerCase().contains("gif")) {
-                        ImageUtils.displayGifImageFromUrl(context!!, message.url, fileThumbnailImage, thumbnails[0].url, fileThumbnailImage.drawable)
+                        ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnailImage, thumbnails[0].url, fileThumbnailImage.drawable)
                     } else {
-                        ImageUtils.displayImageFromUrl(context!!, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
+                        ImageUtils.displayImageFromUrl(context, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
                     }
                 } else {
                     if (message.type.toLowerCase().contains("gif")) {
-                        ImageUtils.displayGifImageFromUrl(context!!, message.url, fileThumbnailImage, null as String?, fileThumbnailImage.drawable)
+                        ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnailImage, null as String?, fileThumbnailImage.drawable)
                     } else {
-                        ImageUtils.displayImageFromUrl(context!!, message.url, fileThumbnailImage, fileThumbnailImage.drawable)
+                        ImageUtils.displayImageFromUrl(context, message.url, fileThumbnailImage, fileThumbnailImage.drawable)
                     }
                 }
             }
@@ -1021,7 +1021,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                 nicknameText.visibility = View.GONE
             } else {
                 profileImage.visibility = View.VISIBLE
-                ImageUtils.displayRoundImageFromUrl(context!!, message.sender.profileUrl, profileImage)
+                ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, profileImage)
 
                 nicknameText.visibility = View.VISIBLE
                 nicknameText.text = message.sender.nickname
@@ -1033,15 +1033,15 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
             // If thumbnails exist, get smallest (first) thumbnail and display it in the message
             if (thumbnails.size > 0) {
                 if (message.type.toLowerCase().contains("gif")) {
-                    ImageUtils.displayGifImageFromUrl(context!!, message.url, fileThumbnailImage, thumbnails[0].url, fileThumbnailImage.drawable)
+                    ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnailImage, thumbnails[0].url, fileThumbnailImage.drawable)
                 } else {
-                    ImageUtils.displayImageFromUrl(context!!, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
+                    ImageUtils.displayImageFromUrl(context, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
                 }
             } else {
                 if (message.type.toLowerCase().contains("gif")) {
-                    ImageUtils.displayGifImageFromUrl(context!!, message.url, fileThumbnailImage, null as String?, fileThumbnailImage.drawable)
+                    ImageUtils.displayGifImageFromUrl(context, message.url, fileThumbnailImage, null as String?, fileThumbnailImage.drawable)
                 } else {
-                    ImageUtils.displayImageFromUrl(context!!, message.url, fileThumbnailImage, fileThumbnailImage.drawable)
+                    ImageUtils.displayImageFromUrl(context, message.url, fileThumbnailImage, fileThumbnailImage.drawable)
                 }
             }
 
@@ -1111,14 +1111,14 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
             }
 
             if (isTempMessage && tempFileMessageUri != null) {
-                ImageUtils.displayImageFromUrl(context!!, tempFileMessageUri.toString(), fileThumbnailImage, null!!)
+                ImageUtils.displayImageFromUrl(context, tempFileMessageUri.toString(), fileThumbnailImage, null)
             } else {
                 // Get thumbnails from FileMessage
                 val thumbnails = message.thumbnails as ArrayList<FileMessage.Thumbnail>
 
                 // If thumbnails exist, get smallest (first) thumbnail and display it in the message
                 if (thumbnails.size > 0) {
-                    ImageUtils.displayImageFromUrl(context!!, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
+                    ImageUtils.displayImageFromUrl(context, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
                 }
             }
 
@@ -1175,7 +1175,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
                 nicknameText.visibility = View.GONE
             } else {
                 profileImage.visibility = View.VISIBLE
-                ImageUtils.displayRoundImageFromUrl(context!!, message.sender.profileUrl, profileImage)
+                ImageUtils.displayRoundImageFromUrl(context, message.sender.profileUrl, profileImage)
 
                 nicknameText.visibility = View.VISIBLE
                 nicknameText.text = message.sender.nickname
@@ -1186,7 +1186,7 @@ internal class GroupChatAdapter(private var mContext: Context?) : RecyclerView.A
 
             // If thumbnails exist, get smallest (first) thumbnail and display it in the message
             if (thumbnails.size > 0) {
-                ImageUtils.displayImageFromUrl(context!!, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
+                ImageUtils.displayImageFromUrl(context, thumbnails[0].url, fileThumbnailImage, fileThumbnailImage.drawable)
             }
 
             if (listener != null) {
